@@ -1,609 +1,607 @@
 {
 	"106": {
-		"inputs": {
-			"model_name": "realesr-general-x4v3.pth"
-		},
-		"class_type": "UpscaleModelLoader",
-		"_meta": {
-			"title": "放大模型加载器"
-		}
+	  "inputs": {
+		"model_name": "realesr-general-x4v3.pth"
+	  },
+	  "class_type": "UpscaleModelLoader",
+	  "_meta": {
+		"title": "放大模型加载器"
+	  }
 	},
 	"126": {
-		"inputs": {
-			"switch_1": "On",
-			"controlnet_1": "control_v11f1p_sd15_depth_fp16.safetensors",
-			"controlnet_strength_1": 1,
-			"start_percent_1": 0,
-			"end_percent_1": 1,
-			"switch_2": "On",
-			"controlnet_2": "control_v11p_sd15_lineart_fp16.safetensors",
-			"controlnet_strength_2": 0.97,
-			"start_percent_2": 0,
-			"end_percent_2": 1,
-			"switch_3": "On",
-			"controlnet_3": "control_v11e_sd15_shuffle_fp16.safetensors",
-			"controlnet_strength_3": 0.8300000000000001,
-			"start_percent_3": 0.111,
-			"end_percent_3": 0.862,
-			"image_1": [
-				"129",
-				0
-			],
-			"image_2": [
-				"150",
-				0
-			],
-			"image_3": [
-				"128",
-				0
-			]
-		},
-		"class_type": "CR Multi-ControlNet Stack",
-		"_meta": {
-			"title": "ControlNet堆"
-		}
+	  "inputs": {
+		"switch_1": "On",
+		"controlnet_1": "control_v11f1p_sd15_depth_fp16.safetensors",
+		"controlnet_strength_1": 1,
+		"start_percent_1": 0,
+		"end_percent_1": 1,
+		"switch_2": "On",
+		"controlnet_2": "control_v11p_sd15_lineart_fp16.safetensors",
+		"controlnet_strength_2": 0.97,
+		"start_percent_2": 0,
+		"end_percent_2": 1,
+		"switch_3": "On",
+		"controlnet_3": "control_v11e_sd15_shuffle_fp16.safetensors",
+		"controlnet_strength_3": 0.8300000000000001,
+		"start_percent_3": 0.111,
+		"end_percent_3": 0.862,
+		"image_1": [
+		  "129",
+		  0
+		],
+		"image_2": [
+		  "150",
+		  0
+		],
+		"image_3": [
+		  "128",
+		  0
+		]
+	  },
+	  "class_type": "CR Multi-ControlNet Stack",
+	  "_meta": {
+		"title": "ControlNet堆"
+	  }
 	},
 	"128": {
-		"inputs": {
-			"resolution": 768,
-			"seed": 60935208822904,
-			"image": [
-				"144",
-				0
-			]
-		},
-		"class_type": "ShufflePreprocessor",
-		"_meta": {
-			"title": "ContronNet-Shuffle内容重组预处理器"
-		}
+	  "inputs": {
+		"resolution": 768,
+		"seed": 482746042482993,
+		"image": [
+		  "144",
+		  0
+		]
+	  },
+	  "class_type": "ShufflePreprocessor",
+	  "_meta": {
+		"title": "Shuffle内容重组预处理器"
+	  }
 	},
 	"129": {
-		"inputs": {
-			"a": 6.283185307179586,
-			"bg_threshold": 0.1,
-			"resolution": 768,
-			"image": [
-				"145",
-				0
-			]
-		},
-		"class_type": "MiDaS-DepthMapPreprocessor",
-		"_meta": {
-			"title": "MiDaS深度预处理器"
-		}
+	  "inputs": {
+		"a": 6.283185307179586,
+		"bg_threshold": 0.1,
+		"resolution": 768,
+		"image": [
+		  "145",
+		  0
+		]
+	  },
+	  "class_type": "MiDaS-DepthMapPreprocessor",
+	  "_meta": {
+		"title": "MiDaS深度预处理器"
+	  }
 	},
 	"131": {
-		"inputs": {
-			"ckpt_name": "rev-animated-v1-2-2.safetensors",
-			"vae_name": "Baked VAE",
-			"clip_skip": -1,
-			"lora_name": "None",
-			"lora_model_strength": 1,
-			"lora_clip_strength": 1,
-			"positive": [
-				"157",
-				0
-			],
-			"negative": [
-				"134",
-				0
-			],
-			"token_normalization": "none",
-			"weight_interpretation": "comfy",
-			"empty_latent_width": [
-				"141",
-				0
-			],
-			"empty_latent_height": [
-				"141",
-				1
-			],
-			"batch_size": 1,
-			"lora_stack": [
-				"133",
-				0
-			],
-			"cnet_stack": [
-				"126",
-				0
-			]
-		},
-		"class_type": "Efficient Loader",
-		"_meta": {
-			"title": "效率加载器"
-		}
+	  "inputs": {
+		"ckpt_name": "rev-animated-v1-2-2.safetensors",
+		"vae_name": "Baked VAE",
+		"clip_skip": -1,
+		"lora_name": "None",
+		"lora_model_strength": 1,
+		"lora_clip_strength": 1,
+		"positive": [
+		  "157",
+		  0
+		],
+		"negative": [
+		  "134",
+		  0
+		],
+		"token_normalization": "none",
+		"weight_interpretation": "comfy",
+		"empty_latent_width": [
+		  "141",
+		  0
+		],
+		"empty_latent_height": [
+		  "141",
+		  1
+		],
+		"batch_size": 1,
+		"lora_stack": [
+		  "133",
+		  0
+		],
+		"cnet_stack": [
+		  "126",
+		  0
+		]
+	  },
+	  "class_type": "Efficient Loader",
+	  "_meta": {
+		"title": "效率加载器"
+	  }
 	},
 	"133": {
-		"inputs": {
-			"input_mode": "simple",
-			"lora_count": 2,
-			"lora_name_1": "艺术剪纸风格 Lora/KK_paperCut_v1.safetensors",
-			"lora_wt_1": 0.25,
-			"model_str_1": 1,
-			"clip_str_1": 1,
-			"lora_name_2": "电商摄影风格Lora/cosmetics_v2.safetensors",
-			"lora_wt_2": 0.33,
-			"model_str_2": 1,
-			"clip_str_2": 1,
-			"lora_name_3": "None",
-			"lora_wt_3": 1,
-			"model_str_3": 1,
-			"clip_str_3": 1,
-			"lora_name_4": "None",
-			"lora_wt_4": 1,
-			"model_str_4": 1,
-			"clip_str_4": 1,
-			"lora_name_5": "None",
-			"lora_wt_5": 1,
-			"model_str_5": 1,
-			"clip_str_5": 1,
-			"lora_name_6": "None",
-			"lora_wt_6": 1,
-			"model_str_6": 1,
-			"clip_str_6": 1,
-			"lora_name_7": "None",
-			"lora_wt_7": 1,
-			"model_str_7": 1,
-			"clip_str_7": 1,
-			"lora_name_8": "None",
-			"lora_wt_8": 1,
-			"model_str_8": 1,
-			"clip_str_8": 1,
-			"lora_name_9": "None",
-			"lora_wt_9": 1,
-			"model_str_9": 1,
-			"clip_str_9": 1,
-			"lora_name_10": "None",
-			"lora_wt_10": 1,
-			"model_str_10": 1,
-			"clip_str_10": 1,
-			"lora_name_11": "None",
-			"lora_wt_11": 1,
-			"model_str_11": 1,
-			"clip_str_11": 1,
-			"lora_name_12": "None",
-			"lora_wt_12": 1,
-			"model_str_12": 1,
-			"clip_str_12": 1,
-			"lora_name_13": "None",
-			"lora_wt_13": 1,
-			"model_str_13": 1,
-			"clip_str_13": 1,
-			"lora_name_14": "None",
-			"lora_wt_14": 1,
-			"model_str_14": 1,
-			"clip_str_14": 1,
-			"lora_name_15": "None",
-			"lora_wt_15": 1,
-			"model_str_15": 1,
-			"clip_str_15": 1,
-			"lora_name_16": "None",
-			"lora_wt_16": 1,
-			"model_str_16": 1,
-			"clip_str_16": 1,
-			"lora_name_17": "None",
-			"lora_wt_17": 1,
-			"model_str_17": 1,
-			"clip_str_17": 1,
-			"lora_name_18": "None",
-			"lora_wt_18": 1,
-			"model_str_18": 1,
-			"clip_str_18": 1,
-			"lora_name_19": "None",
-			"lora_wt_19": 1,
-			"model_str_19": 1,
-			"clip_str_19": 1,
-			"lora_name_20": "None",
-			"lora_wt_20": 1,
-			"model_str_20": 1,
-			"clip_str_20": 1,
-			"lora_name_21": "None",
-			"lora_wt_21": 1,
-			"model_str_21": 1,
-			"clip_str_21": 1,
-			"lora_name_22": "None",
-			"lora_wt_22": 1,
-			"model_str_22": 1,
-			"clip_str_22": 1,
-			"lora_name_23": "None",
-			"lora_wt_23": 1,
-			"model_str_23": 1,
-			"clip_str_23": 1,
-			"lora_name_24": "None",
-			"lora_wt_24": 1,
-			"model_str_24": 1,
-			"clip_str_24": 1,
-			"lora_name_25": "None",
-			"lora_wt_25": 1,
-			"model_str_25": 1,
-			"clip_str_25": 1,
-			"lora_name_26": "None",
-			"lora_wt_26": 1,
-			"model_str_26": 1,
-			"clip_str_26": 1,
-			"lora_name_27": "None",
-			"lora_wt_27": 1,
-			"model_str_27": 1,
-			"clip_str_27": 1,
-			"lora_name_28": "None",
-			"lora_wt_28": 1,
-			"model_str_28": 1,
-			"clip_str_28": 1,
-			"lora_name_29": "None",
-			"lora_wt_29": 1,
-			"model_str_29": 1,
-			"clip_str_29": 1,
-			"lora_name_30": "None",
-			"lora_wt_30": 1,
-			"model_str_30": 1,
-			"clip_str_30": 1,
-			"lora_name_31": "None",
-			"lora_wt_31": 1,
-			"model_str_31": 1,
-			"clip_str_31": 1,
-			"lora_name_32": "None",
-			"lora_wt_32": 1,
-			"model_str_32": 1,
-			"clip_str_32": 1,
-			"lora_name_33": "None",
-			"lora_wt_33": 1,
-			"model_str_33": 1,
-			"clip_str_33": 1,
-			"lora_name_34": "None",
-			"lora_wt_34": 1,
-			"model_str_34": 1,
-			"clip_str_34": 1,
-			"lora_name_35": "None",
-			"lora_wt_35": 1,
-			"model_str_35": 1,
-			"clip_str_35": 1,
-			"lora_name_36": "None",
-			"lora_wt_36": 1,
-			"model_str_36": 1,
-			"clip_str_36": 1,
-			"lora_name_37": "None",
-			"lora_wt_37": 1,
-			"model_str_37": 1,
-			"clip_str_37": 1,
-			"lora_name_38": "None",
-			"lora_wt_38": 1,
-			"model_str_38": 1,
-			"clip_str_38": 1,
-			"lora_name_39": "None",
-			"lora_wt_39": 1,
-			"model_str_39": 1,
-			"clip_str_39": 1,
-			"lora_name_40": "None",
-			"lora_wt_40": 1,
-			"model_str_40": 1,
-			"clip_str_40": 1,
-			"lora_name_41": "None",
-			"lora_wt_41": 1,
-			"model_str_41": 1,
-			"clip_str_41": 1,
-			"lora_name_42": "None",
-			"lora_wt_42": 1,
-			"model_str_42": 1,
-			"clip_str_42": 1,
-			"lora_name_43": "None",
-			"lora_wt_43": 1,
-			"model_str_43": 1,
-			"clip_str_43": 1,
-			"lora_name_44": "None",
-			"lora_wt_44": 1,
-			"model_str_44": 1,
-			"clip_str_44": 1,
-			"lora_name_45": "None",
-			"lora_wt_45": 1,
-			"model_str_45": 1,
-			"clip_str_45": 1,
-			"lora_name_46": "None",
-			"lora_wt_46": 1,
-			"model_str_46": 1,
-			"clip_str_46": 1,
-			"lora_name_47": "None",
-			"lora_wt_47": 1,
-			"model_str_47": 1,
-			"clip_str_47": 1,
-			"lora_name_48": "None",
-			"lora_wt_48": 1,
-			"model_str_48": 1,
-			"clip_str_48": 1,
-			"lora_name_49": "None",
-			"lora_wt_49": 1,
-			"model_str_49": 1,
-			"clip_str_49": 1
-		},
-		"class_type": "LoRA Stacker",
-		"_meta": {
-			"title": "LoRA堆"
-		}
+	  "inputs": {
+		"input_mode": "simple",
+		"lora_count": 2,
+		"lora_name_1": "艺术剪纸风格 Lora/KK_paperCut_v1.safetensors",
+		"lora_wt_1": 0.25,
+		"model_str_1": 1,
+		"clip_str_1": 1,
+		"lora_name_2": "电商摄影风格Lora/cosmetics_v2.safetensors",
+		"lora_wt_2": 0.33,
+		"model_str_2": 1,
+		"clip_str_2": 1,
+		"lora_name_3": "None",
+		"lora_wt_3": 1,
+		"model_str_3": 1,
+		"clip_str_3": 1,
+		"lora_name_4": "None",
+		"lora_wt_4": 1,
+		"model_str_4": 1,
+		"clip_str_4": 1,
+		"lora_name_5": "None",
+		"lora_wt_5": 1,
+		"model_str_5": 1,
+		"clip_str_5": 1,
+		"lora_name_6": "None",
+		"lora_wt_6": 1,
+		"model_str_6": 1,
+		"clip_str_6": 1,
+		"lora_name_7": "None",
+		"lora_wt_7": 1,
+		"model_str_7": 1,
+		"clip_str_7": 1,
+		"lora_name_8": "None",
+		"lora_wt_8": 1,
+		"model_str_8": 1,
+		"clip_str_8": 1,
+		"lora_name_9": "None",
+		"lora_wt_9": 1,
+		"model_str_9": 1,
+		"clip_str_9": 1,
+		"lora_name_10": "None",
+		"lora_wt_10": 1,
+		"model_str_10": 1,
+		"clip_str_10": 1,
+		"lora_name_11": "None",
+		"lora_wt_11": 1,
+		"model_str_11": 1,
+		"clip_str_11": 1,
+		"lora_name_12": "None",
+		"lora_wt_12": 1,
+		"model_str_12": 1,
+		"clip_str_12": 1,
+		"lora_name_13": "None",
+		"lora_wt_13": 1,
+		"model_str_13": 1,
+		"clip_str_13": 1,
+		"lora_name_14": "None",
+		"lora_wt_14": 1,
+		"model_str_14": 1,
+		"clip_str_14": 1,
+		"lora_name_15": "None",
+		"lora_wt_15": 1,
+		"model_str_15": 1,
+		"clip_str_15": 1,
+		"lora_name_16": "None",
+		"lora_wt_16": 1,
+		"model_str_16": 1,
+		"clip_str_16": 1,
+		"lora_name_17": "None",
+		"lora_wt_17": 1,
+		"model_str_17": 1,
+		"clip_str_17": 1,
+		"lora_name_18": "None",
+		"lora_wt_18": 1,
+		"model_str_18": 1,
+		"clip_str_18": 1,
+		"lora_name_19": "None",
+		"lora_wt_19": 1,
+		"model_str_19": 1,
+		"clip_str_19": 1,
+		"lora_name_20": "None",
+		"lora_wt_20": 1,
+		"model_str_20": 1,
+		"clip_str_20": 1,
+		"lora_name_21": "None",
+		"lora_wt_21": 1,
+		"model_str_21": 1,
+		"clip_str_21": 1,
+		"lora_name_22": "None",
+		"lora_wt_22": 1,
+		"model_str_22": 1,
+		"clip_str_22": 1,
+		"lora_name_23": "None",
+		"lora_wt_23": 1,
+		"model_str_23": 1,
+		"clip_str_23": 1,
+		"lora_name_24": "None",
+		"lora_wt_24": 1,
+		"model_str_24": 1,
+		"clip_str_24": 1,
+		"lora_name_25": "None",
+		"lora_wt_25": 1,
+		"model_str_25": 1,
+		"clip_str_25": 1,
+		"lora_name_26": "None",
+		"lora_wt_26": 1,
+		"model_str_26": 1,
+		"clip_str_26": 1,
+		"lora_name_27": "None",
+		"lora_wt_27": 1,
+		"model_str_27": 1,
+		"clip_str_27": 1,
+		"lora_name_28": "None",
+		"lora_wt_28": 1,
+		"model_str_28": 1,
+		"clip_str_28": 1,
+		"lora_name_29": "None",
+		"lora_wt_29": 1,
+		"model_str_29": 1,
+		"clip_str_29": 1,
+		"lora_name_30": "None",
+		"lora_wt_30": 1,
+		"model_str_30": 1,
+		"clip_str_30": 1,
+		"lora_name_31": "None",
+		"lora_wt_31": 1,
+		"model_str_31": 1,
+		"clip_str_31": 1,
+		"lora_name_32": "None",
+		"lora_wt_32": 1,
+		"model_str_32": 1,
+		"clip_str_32": 1,
+		"lora_name_33": "None",
+		"lora_wt_33": 1,
+		"model_str_33": 1,
+		"clip_str_33": 1,
+		"lora_name_34": "None",
+		"lora_wt_34": 1,
+		"model_str_34": 1,
+		"clip_str_34": 1,
+		"lora_name_35": "None",
+		"lora_wt_35": 1,
+		"model_str_35": 1,
+		"clip_str_35": 1,
+		"lora_name_36": "None",
+		"lora_wt_36": 1,
+		"model_str_36": 1,
+		"clip_str_36": 1,
+		"lora_name_37": "None",
+		"lora_wt_37": 1,
+		"model_str_37": 1,
+		"clip_str_37": 1,
+		"lora_name_38": "None",
+		"lora_wt_38": 1,
+		"model_str_38": 1,
+		"clip_str_38": 1,
+		"lora_name_39": "None",
+		"lora_wt_39": 1,
+		"model_str_39": 1,
+		"clip_str_39": 1,
+		"lora_name_40": "None",
+		"lora_wt_40": 1,
+		"model_str_40": 1,
+		"clip_str_40": 1,
+		"lora_name_41": "None",
+		"lora_wt_41": 1,
+		"model_str_41": 1,
+		"clip_str_41": 1,
+		"lora_name_42": "None",
+		"lora_wt_42": 1,
+		"model_str_42": 1,
+		"clip_str_42": 1,
+		"lora_name_43": "None",
+		"lora_wt_43": 1,
+		"model_str_43": 1,
+		"clip_str_43": 1,
+		"lora_name_44": "None",
+		"lora_wt_44": 1,
+		"model_str_44": 1,
+		"clip_str_44": 1,
+		"lora_name_45": "None",
+		"lora_wt_45": 1,
+		"model_str_45": 1,
+		"clip_str_45": 1,
+		"lora_name_46": "None",
+		"lora_wt_46": 1,
+		"model_str_46": 1,
+		"clip_str_46": 1,
+		"lora_name_47": "None",
+		"lora_wt_47": 1,
+		"model_str_47": 1,
+		"clip_str_47": 1,
+		"lora_name_48": "None",
+		"lora_wt_48": 1,
+		"model_str_48": 1,
+		"clip_str_48": 1,
+		"lora_name_49": "None",
+		"lora_wt_49": 1,
+		"model_str_49": 1,
+		"clip_str_49": 1
+	  },
+	  "class_type": "LoRA Stacker",
+	  "_meta": {
+		"title": "LoRA堆"
+	  }
 	},
 	"134": {
-		"inputs": {
-			"prompt": "embedding:quality\\EasyNegativeV2, embedding:quality\\FastNegativeV2, "
-		},
-		"class_type": "CR Prompt Text",
-		"_meta": {
-			"title": "提示词文本"
-		}
+	  "inputs": {
+		"prompt": "embedding:quality\\EasyNegativeV2, embedding:quality\\FastNegativeV2, "
+	  },
+	  "class_type": "CR Prompt Text",
+	  "_meta": {
+		"title": "提示词文本"
+	  }
 	},
 	"136": {
-		"inputs": {
-			"prompt": "masterpiece,best quality,4k,highres,\nray traced ambient occlusion, hazy, natural light, lime tones, gel resin sheet, cad, oc rendering, relief, \nno_human"
-		},
-		"class_type": "CR Prompt Text",
-		"_meta": {
-			"title": "提示词文本"
-		}
+	  "inputs": {
+		"prompt": "masterpiece,best quality,4k,highres,\nray traced ambient occlusion, hazy, natural light, lime tones, gel resin sheet, cad, oc rendering, relief, \nno_human"
+	  },
+	  "class_type": "CR Prompt Text",
+	  "_meta": {
+		"title": "提示词文本"
+	  }
 	},
 	"137": {
-		"inputs": {
-			"seed": 1077586741746205,
-			"steps": 30,
-			"cfg": 7,
-			"sampler_name": "dpmpp_2m_sde",
-			"scheduler": "karras",
-			"denoise": 1,
-			"preview_method": "auto",
-			"vae_decode": "true",
-			"model": [
-				"151",
-				0
-			],
-			"positive": [
-				"131",
-				1
-			],
-			"negative": [
-				"131",
-				2
-			],
-			"latent_image": [
-				"131",
-				3
-			],
-			"optional_vae": [
-				"131",
-				4
-			]
-		},
-		"class_type": "KSampler (Efficient)",
-		"_meta": {
-			"title": "K采样器(效率)"
-		}
+	  "inputs": {
+		"seed": 1077586741746205,
+		"steps": 30,
+		"cfg": 7,
+		"sampler_name": "dpmpp_2m_sde",
+		"scheduler": "karras",
+		"denoise": 1,
+		"preview_method": "auto",
+		"vae_decode": "true",
+		"model": [
+		  "151",
+		  0
+		],
+		"positive": [
+		  "131",
+		  1
+		],
+		"negative": [
+		  "131",
+		  2
+		],
+		"latent_image": [
+		  "131",
+		  3
+		],
+		"optional_vae": [
+		  "131",
+		  4
+		]
+	  },
+	  "class_type": "KSampler (Efficient)",
+	  "_meta": {
+		"title": "K采样器(效率)"
+	  }
 	},
 	"138": {
-		"inputs": {
-			"filename_prefix": "21366958041280120240129004934",
-			"images": [
-				"137",
-				5
-			]
-		},
-		"class_type": "SaveImage",
-		"_meta": {
-			"title": "保存图像"
-		}
+	  "inputs": {
+		"filename_prefix": "23195349318272420240129134728",
+		"images": [
+		  "137",
+		  5
+		]
+	  },
+	  "class_type": "SaveImage",
+	  "_meta": {
+		"title": "保存图像"
+	  }
 	},
 	"139": {
-		"inputs": {
-			"image": "example1.jpg",
-			"upload": "image"
-		},
-		"class_type": "LoadImage",
-		"_meta": {
-			"title": "加载图像"
-		}
+	  "inputs": {
+		"image": "画板 (1).png",
+		"upload": "image"
+	  },
+	  "class_type": "LoadImage",
+	  "_meta": {
+		"title": "加载图像"
+	  }
 	},
 	"140": {
-		"inputs": {
-			"insanitylevel": 5,
-			"artist": "all",
-			"imagetype": "all",
-			"imagemodechance": 20,
-			"subject": "concept",
-			"custom_subject": "",
-			"custom_outfit": "",
-			"subject_subtype_objects": "all",
-			"subject_subtypes_humanoids": "all",
-			"humanoids_gender": "all",
-			"subject_subtypes_concepts": "all",
-			"emojis": false,
-			"seed": 789018047498577
-		},
-		"class_type": "OneButtonPrompt",
-		"_meta": {
-			"title": "一键提示词"
-		}
+	  "inputs": {
+		"insanitylevel": 5,
+		"artist": "all",
+		"imagetype": "all",
+		"imagemodechance": 20,
+		"subject": "concept",
+		"custom_subject": "",
+		"custom_outfit": "",
+		"subject_subtype_objects": "all",
+		"subject_subtypes_humanoids": "all",
+		"humanoids_gender": "all",
+		"subject_subtypes_concepts": "all",
+		"emojis": false,
+		"seed": 433309618264321
+	  },
+	  "class_type": "OneButtonPrompt",
+	  "_meta": {
+		"title": "一键提示词"
+	  }
 	},
 	"141": {
-		"inputs": {
-			"image": [
-				"145",
-				0
-			]
-		},
-		"class_type": "Get Image Size",
-		"_meta": {
-			"title": "获取图像尺寸"
-		}
+	  "inputs": {
+		"image": [
+		  "145",
+		  0
+		]
+	  },
+	  "class_type": "Get Image Size",
+	  "_meta": {
+		"title": "获取图像尺寸"
+	  }
 	},
 	"144": {
-		"inputs": {
-			"image": "example2.jpg",
-			"upload": "image"
-		},
-		"class_type": "LoadImage",
-		"_meta": {
-			"title": "加载图像"
-		}
+	  "inputs": {
+		"image": "erol-ahmed-FTy5VSGIfiQ-unsplash (1).jpg",
+		"upload": "image"
+	  },
+	  "class_type": "LoadImage",
+	  "_meta": {
+		"title": "加载图像"
+	  }
 	},
 	"145": {
-		"inputs": {
-			"max_width": 1024,
-			"max_height": 1024,
-			"min_width": 0,
-			"min_height": 0,
-			"crop_if_required": "no",
-			"images": [
-				"139",
-				0
-			]
-		},
-		"class_type": "ConstrainImage|pysssss",
-		"_meta": {
-			"title": "限制图像区域"
-		}
+	  "inputs": {
+		"max_width": 1024,
+		"max_height": 1024,
+		"min_width": 0,
+		"min_height": 0,
+		"crop_if_required": "no",
+		"images": [
+		  "139",
+		  0
+		]
+	  },
+	  "class_type": "ConstrainImage|pysssss",
+	  "_meta": {
+		"title": "限制图像区域"
+	  }
 	},
 	"146": {
-		"inputs": {
-			"model": "wd-v1-4-moat-tagger-v2",
-			"threshold": 0.35,
-			"character_threshold": 0.85,
-			"replace_underscore": "simple_background, white_background,",
-			"trailing_comma": "outdoors, sky, tree, no_humans, nature, scenery, snow, forest, mountain",
-			"exclude_tags": "",
-			"tags": "1girl, solo, looking at viewer, silhouette, ",
-			"image": [
-				"144",
-				0
-			]
-		},
-		"class_type": "WD14Tagger|pysssss",
-		"_meta": {
-			"title": "WD14反推提示词"
-		}
+	  "inputs": {
+		"model": "wd-v1-4-moat-tagger-v2",
+		"threshold": 0.35,
+		"character_threshold": 0.85,
+		"replace_underscore": "simple_background, white_background,",
+		"trailing_comma": "outdoors, sky, tree, no_humans, nature, scenery, snow, forest, mountain",
+		"exclude_tags": "",
+		"image": [
+		  "144",
+		  0
+		]
+	  },
+	  "class_type": "WD14Tagger|pysssss",
+	  "_meta": {
+		"title": "WD14反推提示词"
+	  }
 	},
 	"147": {
-		"inputs": {
-			"images": [
-				"129",
-				0
-			]
-		},
-		"class_type": "PreviewImage",
-		"_meta": {
-			"title": "预览图像"
-		}
+	  "inputs": {
+		"images": [
+		  "129",
+		  0
+		]
+	  },
+	  "class_type": "PreviewImage",
+	  "_meta": {
+		"title": "预览图像"
+	  }
 	},
 	"148": {
-		"inputs": {
-			"images": [
-				"128",
-				0
-			]
-		},
-		"class_type": "PreviewImage",
-		"_meta": {
-			"title": "预览图像"
-		}
+	  "inputs": {
+		"images": [
+		  "128",
+		  0
+		]
+	  },
+	  "class_type": "PreviewImage",
+	  "_meta": {
+		"title": "预览图像"
+	  }
 	},
 	"150": {
-		"inputs": {
-			"coarse": "disable",
-			"resolution": 768,
-			"image": [
-				"145",
-				0
-			]
-		},
-		"class_type": "LineArtPreprocessor",
-		"_meta": {
-			"title": "LineArt艺术线预处理器"
-		}
+	  "inputs": {
+		"coarse": "disable",
+		"resolution": 768,
+		"image": [
+		  "145",
+		  0
+		]
+	  },
+	  "class_type": "LineArtPreprocessor",
+	  "_meta": {
+		"title": "LineArt艺术线预处理器"
+	  }
 	},
 	"151": {
-		"inputs": {
-			"weight": 0.54,
-			"noise": 1,
-			"weight_type": "original",
-			"start_at": 0,
-			"end_at": 1,
-			"unfold_batch": false,
-			"ipadapter": [
-				"153",
-				0
-			],
-			"clip_vision": [
-				"154",
-				0
-			],
-			"image": [
-				"144",
-				0
-			],
-			"model": [
-				"131",
-				0
-			]
-		},
-		"class_type": "IPAdapterApply",
-		"_meta": {
-			"title": "IP适配应用"
-		}
+	  "inputs": {
+		"weight": 0.54,
+		"noise": 1,
+		"weight_type": "original",
+		"start_at": 0,
+		"end_at": 1,
+		"unfold_batch": false,
+		"ipadapter": [
+		  "153",
+		  0
+		],
+		"clip_vision": [
+		  "154",
+		  0
+		],
+		"image": [
+		  "144",
+		  0
+		],
+		"model": [
+		  "131",
+		  0
+		]
+	  },
+	  "class_type": "IPAdapterApply",
+	  "_meta": {
+		"title": "IP适配应用"
+	  }
 	},
 	"153": {
-		"inputs": {
-			"ipadapter_file": "ip-adapter-plus_sd15.safetensors"
-		},
-		"class_type": "IPAdapterModelLoader",
-		"_meta": {
-			"title": "IP适配模型加载器"
-		}
+	  "inputs": {
+		"ipadapter_file": "ip-adapter-plus_sd15.safetensors"
+	  },
+	  "class_type": "IPAdapterModelLoader",
+	  "_meta": {
+		"title": "IP适配模型加载器"
+	  }
 	},
 	"154": {
-		"inputs": {
-			"clip_name": "model.safetensors"
-		},
-		"class_type": "CLIPVisionLoader",
-		"_meta": {
-			"title": "CLIP视觉加载器"
-		}
+	  "inputs": {
+		"clip_name": "model.safetensors"
+	  },
+	  "class_type": "CLIPVisionLoader",
+	  "_meta": {
+		"title": "CLIP视觉加载器"
+	  }
 	},
 	"156": {
-		"inputs": {
-			"model": "wd-v1-4-moat-tagger-v2",
-			"threshold": 0.35,
-			"character_threshold": 0.85,
-			"replace_underscore": "simple_background, white_background,",
-			"trailing_comma": "no_humans, drink, can, red_theme, food_focus, brand_name_imitation, soda_can, still_life, product_placement, coca-cola, soda, cola",
-			"exclude_tags": "",
-			"tags": "1girl, solo, 1boy, ball, ",
-			"image": [
-				"145",
-				0
-			]
-		},
-		"class_type": "WD14Tagger|pysssss",
-		"_meta": {
-			"title": "WD14反推提示词"
-		}
+	  "inputs": {
+		"model": "wd-v1-4-moat-tagger-v2",
+		"threshold": 0.35,
+		"character_threshold": 0.85,
+		"replace_underscore": "simple_background, white_background,",
+		"trailing_comma": "no_humans, drink, can, red_theme, food_focus, brand_name_imitation, soda_can, still_life, product_placement, coca-cola, soda, cola",
+		"exclude_tags": "",
+		"image": [
+		  "145",
+		  0
+		]
+	  },
+	  "class_type": "WD14Tagger|pysssss",
+	  "_meta": {
+		"title": "WD14反推提示词"
+	  }
 	},
 	"157": {
-		"inputs": {
-			"delimiter": "",
-			"clean_whitespace": "false",
-			"text_a": [
-				"136",
-				0
-			],
-			"text_b": [
-				"156",
-				0
-			],
-			"text_c": [
-				"146",
-				0
-			],
-			"text_d": [
-				"140",
-				0
-			]
-		},
-		"class_type": "Text Concatenate",
-		"_meta": {
-			"title": "文本连锁"
-		}
+	  "inputs": {
+		"delimiter": "",
+		"clean_whitespace": "false",
+		"text_a": [
+		  "136",
+		  0
+		],
+		"text_b": [
+		  "156",
+		  0
+		],
+		"text_c": [
+		  "146",
+		  0
+		],
+		"text_d": [
+		  "140",
+		  0
+		]
+	  },
+	  "class_type": "Text Concatenate",
+	  "_meta": {
+		"title": "文本连锁"
+	  }
 	}
-}
+  }
