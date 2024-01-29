@@ -13,28 +13,32 @@ from datetime import datetime
 
 
 URL = "http://127.0.0.1:8188" # comfyUI 的服务器地址
-app = Flask(__name__)
-IMG_ID = None
 UPLOAD_FOLDER = 'images'
 SERVER_IP = os.environ.get('SERVER_IP') # 【获取系统 ip 方法一(硬编码)】=> 从环境变量中获取 SERVER_IP
-PORT = 5000 # 服务器端口, 必须跟服务器启动的端口号一样(比如 5000), 用于生成图片的 URL
+PORT = 5001 # 服务器端口, 必须跟服务器启动的端口号一样(比如 5001), 用于生成图片的 URL
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER # 指定图片存储文件夹的路径
 os.makedirs(UPLOAD_FOLDER, exist_ok=True) # 确保上传文件夹存在
 
 
 # ⌛️ 轮询方法, 等待生图完成 ————————————————————————————————————————————————————————————————————————
-def check_image_status(prompt_id, timeout=60, interval=2):
-    """检查图片状态, 直到生成完图片或者图片生成超时"""
+def check_image_status(prompt_id, timeout=360, interval=2):
+    # 检查图片状态, 直到生成完图片或者图片生成超时
     stast_time = time.time()
+    request_time = 0 # 请求次数
     while time.time() - stast_time < timeout: # 当前时间 - 开始时间 < 超时时间
-        img_response = requests.get(url=f'{URL}/history/{prompt_id}') # 请求生图结果
-        print("⏰ 请求了一次生图结果...")
-        print("————————————————————————————————————————————————")
-        if img_response.status_code == 200:
-            data = img_response.json().get(prompt_id, {}).get('outputs', {}) # 等价于 data = img_response_data.json()[prompt_id], 但这种方式有弊端, 如果 output 不存在会报错  <==  看下返回的 outputs 在哪个节点号！ => 哪个节点有 image
-            if data:
-                return jsonify(data) # flask 的 jsonify() 方法可以将字典转换为 json 字符串
-        time.sleep(interval) # 每隔 interval 秒轮询一次
+        try:
+            request_time += 1
+            img_response = requests.get(url=f'{URL}/history/{prompt_id}') # 请求生图结果
+            print(f"⏰ 请求了{request_time}次生图结果...")
+            if img_response.status_code == 200:
+                data = img_response.json().get(prompt_id, {}).get('outputs', {}) # 等价于 data = img_response_data.json()[prompt_id], 但这种方式有弊端, 如果 output 不存在会报错  <==  看下返回的 outputs 在哪个节点号！ => 哪个节点有 image
+                if data:
+                    return jsonify(data) # flask 的 jsonify() 方法可以将字典转换为 json 字符串
+            time.sleep(interval) # 每隔 interval 秒轮询一次
+        except Exception as e:
+            return jsonify({"❌ 生图出错: ", str(e)}), 404
+    return jsonify({"❌ 生图超时: ": str(e)}), 404
 			
    
 # 将图片数据转换为 base64 编码的格式
@@ -44,10 +48,19 @@ def encode_pil_to_base64(image): # 给图像编码
         bytes_data = output_bytes.getvalue()
     return base64.b64encode(bytes_data).decode("utf-8")
 
-# 生成图片 url 的方法
+
+# 生成 images 静态图片文件夹 url 的方法
 @app.route('/images/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+# 生成 comfyUI 的 output 静态图片文件夹 url 的方法
+@app.route('/output/<filename>')
+def comfyUI_output(filename):
+	username = getpass.getuser() # 获取当前电脑的用户名（实际的图片存在这个文件夹内）
+	output_folder = f'/Users/{username}/ComfyUI/output'
+	return send_from_directory(output_folder, filename)
+
 
 # 生图服务的路由 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 @app.route('/generate', methods=['POST'])
@@ -57,7 +70,7 @@ def index():
     image_file_2 = request.files.get('image2') # 获取第二张图片的二进制流
     
     if not image_file_1 or not image_file_2:
-        return jsonify({"error": "❌ 缺失 2 张图片"}), 400
+        return jsonify({"error": "❌ 缺失 2 张图片"}), 404
     else: # 返回数据
         # 读取图片文件
         image_data_1 = request.files.get('image1')
@@ -77,12 +90,6 @@ def index():
         absoluteFilePath_2 = os.path.abspath(filePath_2)
         print("✅ 保存图片成功", absoluteFilePath_1, absoluteFilePath_2)
         print("————————————————————————————————————————————————")
-        
-        # 在保存图片后，构建图片URL
-        # img_path_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
-        # img_path_2 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
-        # print("✅ 保存路径构建成功", img_path_1, img_path_2)
-        # print("————————————————————————————————————————————————")
         
         # 将保存路径转换为图片的 URL
         # img_url_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
@@ -112,11 +119,8 @@ def index():
             # 修改 prompt 字典中的图片数据 -> 修改 json 数据
             prompt_dict["139"]["inputs"]["image"] = absoluteFilePath_1 # 修改第一张图片
             prompt_dict["144"]["inputs"]["image"] = absoluteFilePath_2 # 修改第一张图片
-            # prompt_dict["139"]["inputs"]["image"] = img_url_1 # 修改第一张图片
-            # prompt_dict["144"]["inputs"]["image"] = img_url_2 # 修改第二张图片
             # return (img_url_1)
             
-
 
 		    # ✏️ 文生图 - 【发送生图请求】 ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————        
             # 发送请求, 开始进入队列进行生图, 接口会返回一个生图队列的 id
@@ -141,31 +145,30 @@ def index():
                         res = check_image_status(prompt_id)
                         res_data = res.get_json() # 在 Flask 中, 当使用 jsonify() 创建一个响应时，实际上是返回了一个 Flask Response 对象, 其中包含了 JSON 格式的字符串作为其数据。要访问这个数据, 需要先检查响应的状态码, 然后解析响应内容为 JSON
                         print("👀 拿到了生图结果: ", res_data)
+                        print("————————————————————————————————————————————————")
                 
+						# 获得 ComfyUI 生完图的图片名称
                         img_name = res_data['138']['images'][0]['filename']
                         
-                        # 使用view 接口来获取图片信息 ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-                        view_image_path = f'{URL}/view?filename={img_name}' 
-                        print("👍 拿到了图片路径: ", view_image_path)
-                        print("————————————————————————————————————————————————")
                         
-                        # 获得存放图片的文件夹路径
-                        username = getpass.getuser() # 获取当前用户名
-                        folder_path = f'/Users/{username}/ComfyUI/output'
-                        full_imageFile_path = os.path.join(folder_path, img_name)  # 构建图片的完整路径
+                        # 使用 view 预览接口来获取图片信息（实际上并不是图片的绝对地址！！只是 comfyUI 服务器提供的预览）
+                        # view_image_path = f'{URL}/view?filename={img_name}'  # (图片实际上保存在 ComfyUI 的 output 文件夹)
+                        # print("👍 预览图片: ", view_image_path)
+                        # print("————————————————————————————————————————————————")
                         
-                        img_url = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(full_imageFile_path)}'
+                        # ComfyUI 存放图片的文件夹路径
+                        img_url = f'http://{SERVER_IP}:{PORT}/output/{img_name}'
                         print("👍 生成了图片地址: ", img_url)
                         return img_url
     
                     except Exception as e:
-                        return jsonify({"❌ Error": str(e)}), 500
+                        return jsonify({"❌ Error": str(e)}), 404
                 else:
-                    return jsonify({"❌ Error": "生图失败"}), 500
+                    return jsonify({"❌ Error": "生图失败"}), 404
                 
 
 # 初始化 __main__
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5000, debug=True)
+	app.run(host='0.0.0.0', port=5001, debug=True)
 
 
