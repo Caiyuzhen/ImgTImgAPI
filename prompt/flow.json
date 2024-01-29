@@ -340,7 +340,7 @@
 	"137": {
 	  "inputs": {
 		"seed": 1077586741746205,
-		"steps": 30,
+		"steps": 2,
 		"cfg": 7,
 		"sampler_name": "dpmpp_2m_sde",
 		"scheduler": "karras",

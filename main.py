@@ -12,9 +12,10 @@ from threading import Thread
 from datetime import datetime
 
 
-URL = "http://127.0.0.1:8188" # comfyUI 的服务器地址
+
 UPLOAD_FOLDER = 'images'
-SERVER_IP = os.environ.get('SERVER_IP') # 【获取系统 ip 方法一(硬编码)】=> 从环境变量中获取 SERVER_IP
+API_SERVER_IP = os.environ.get('API_SERVER_IP') # 【获取系统 ip 方法一(硬编码)】=> 从环境变量中获取 API_SERVER_IP
+URL = f"http://{API_SERVER_IP}:8188" # comfyUI 的服务器地址
 PORT = 5001 # 服务器端口, 必须跟服务器启动的端口号一样(比如 5001), 用于生成图片的 URL
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER # 指定图片存储文件夹的路径
@@ -92,8 +93,8 @@ def index():
         print("————————————————————————————————————————————————")
         
         # 将保存路径转换为图片的 URL
-        # img_url_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
-        # img_url_2 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
+        # img_url_1 = f'http://{API_SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
+        # img_url_2 = f'http://{API_SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
         # print("✅ 拿到了两张图片的 url: ", img_url_1, img_url_2)
         # print("————————————————————————————————————————————————")
         
@@ -157,7 +158,7 @@ def index():
                         # print("————————————————————————————————————————————————")
                         
                         # ComfyUI 存放图片的文件夹路径
-                        img_url = f'http://{SERVER_IP}:{PORT}/output/{img_name}'
+                        img_url = f'http://{API_SERVER_IP}:{PORT}/output/{img_name}'
                         print("👍 生成了图片地址: ", img_url)
                         return img_url
     
