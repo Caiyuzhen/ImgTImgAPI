@@ -1,3 +1,4 @@
+import getpass
 import io
 import os
 import json
@@ -27,6 +28,8 @@ def check_image_status(prompt_id, timeout=60, interval=2):
     stast_time = time.time()
     while time.time() - stast_time < timeout: # 当前时间 - 开始时间 < 超时时间
         img_response = requests.get(url=f'{URL}/history/{prompt_id}') # 请求生图结果
+        print("⏰ 请求了一次生图结果...")
+        print("————————————————————————————————————————————————")
         if img_response.status_code == 200:
             data = img_response.json().get(prompt_id, {}).get('outputs', {}) # 等价于 data = img_response_data.json()[prompt_id], 但这种方式有弊端, 如果 output 不存在会报错  <==  看下返回的 outputs 在哪个节点号！ => 哪个节点有 image
             if data:
@@ -35,8 +38,11 @@ def check_image_status(prompt_id, timeout=60, interval=2):
 			
    
 # 将图片数据转换为 base64 编码的格式
-def encode_image_to_base64(image_data):
-    return base64.b64encode(image_data).decode('utf-8')
+def encode_pil_to_base64(image): # 给图像编码
+    with io.BytesIO() as output_bytes:
+        image.save(output_bytes, format="jpg")
+        bytes_data = output_bytes.getvalue()
+    return base64.b64encode(bytes_data).decode("utf-8")
 
 # 生成图片 url 的方法
 @app.route('/images/<filename>')
@@ -67,22 +73,34 @@ def index():
         filePath_2 = os.path.join(app.config['UPLOAD_FOLDER'], fileName_2)
         image_data_1.save(filePath_1) # 保存图片
         image_data_2.save(filePath_2) # 保存图片
-        print("✅ 保存图片成功")
+        absoluteFilePath_1 = os.path.abspath(filePath_1)
+        absoluteFilePath_2 = os.path.abspath(filePath_2)
+        print("✅ 保存图片成功", absoluteFilePath_1, absoluteFilePath_2)
         print("————————————————————————————————————————————————")
         
+        # 在保存图片后，构建图片URL
+        # img_path_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
+        # img_path_2 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
+        # print("✅ 保存路径构建成功", img_path_1, img_path_2)
+        # print("————————————————————————————————————————————————")
+        
         # 将保存路径转换为图片的 URL
-        img_url_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
-        img_url_2 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
-        print("✅ 拿到了两张图片的 url: ", img_url_1, img_url_2)
-        print("————————————————————————————————————————————————")
+        # img_url_1 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_1)}'
+        # img_url_2 = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(filePath_2)}'
+        # print("✅ 拿到了两张图片的 url: ", img_url_1, img_url_2)
+        # print("————————————————————————————————————————————————")
         
         # 将图片数据转换为二进制字符串, latin-1 表示每个字符占用一个字节
         # image_string_1 = image_data_1.decode('latin-1')
         # image_string_2 = image_data_2.decode('latin-1')
         
         # 将图片转为 base64 编码的格式
-        # image_base64_1 = encode_image_to_base64(image_data_1)
-        # image_base64_2 = encode_image_to_base64(image_data_2)
+        # mg_encode_1  = Image.open(io.BytesIO(image_string_1))
+        # mg_encode_2  = Image.open(io.BytesIO(image_string_2))
+        # image_base64_1 = encode_pil_to_base64(image_string_1)
+        # image_base64_2 = encode_pil_to_base64(image_string_2)
+        # print("✅ 拿到了两张图片的 base64: ", image_base64_1, image_base64_2)
+        # print("————————————————————————————————————————————————")
         
         # 打开 json 工作流
         # 获取当前文件所在的目录（即main.py所在的目录）
@@ -92,8 +110,8 @@ def index():
             prompt_dict = json.loads(f.read()) # 直接以 json 形式进行读取
             
             # 修改 prompt 字典中的图片数据 -> 修改 json 数据
-            prompt_dict["139"]["inputs"]["image"] = filePath_1 # 修改第一张图片
-            prompt_dict["144"]["inputs"]["image"] = filePath_2 # 修改第一张图片
+            prompt_dict["139"]["inputs"]["image"] = absoluteFilePath_1 # 修改第一张图片
+            prompt_dict["144"]["inputs"]["image"] = absoluteFilePath_2 # 修改第一张图片
             # prompt_dict["139"]["inputs"]["image"] = img_url_1 # 修改第一张图片
             # prompt_dict["144"]["inputs"]["image"] = img_url_2 # 修改第二张图片
             # return (img_url_1)
@@ -113,6 +131,7 @@ def index():
                 if "prompt_id" in response_jsonData:
                     prompt_id = response_jsonData["prompt_id"]
                     print("✅ 返回了任务 id: ", prompt_id)
+                    print("————————————————————————————————————————————————")
 
   		        # 查看下 output
                 if prompt_id:
@@ -121,14 +140,23 @@ def index():
                         res = ''
                         res = check_image_status(prompt_id)
                         res_data = res.get_json() # 在 Flask 中, 当使用 jsonify() 创建一个响应时，实际上是返回了一个 Flask Response 对象, 其中包含了 JSON 格式的字符串作为其数据。要访问这个数据, 需要先检查响应的状态码, 然后解析响应内容为 JSON
-                        print("✅ 拿到了生图结果: ", res_data)
+                        print("👀 拿到了生图结果: ", res_data)
                 
-                        img_name = res_data["9"]['images'][0]['filename']
+                        img_name = res_data['138']['images'][0]['filename']
                         
-                        # 🔥 使用view 接口来获取图片信息 ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+                        # 使用view 接口来获取图片信息 ————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
                         view_image_path = f'{URL}/view?filename={img_name}' 
-                        print("✅  拿到了图片路径: ", view_image_path)
-                        return view_image_path
+                        print("👍 拿到了图片路径: ", view_image_path)
+                        print("————————————————————————————————————————————————")
+                        
+                        # 获得存放图片的文件夹路径
+                        username = getpass.getuser() # 获取当前用户名
+                        folder_path = f'/Users/{username}/ComfyUI/output'
+                        full_imageFile_path = os.path.join(folder_path, img_name)  # 构建图片的完整路径
+                        
+                        img_url = f'http://{SERVER_IP}:{PORT}/images/{os.path.basename(full_imageFile_path)}'
+                        print("👍 生成了图片地址: ", img_url)
+                        return img_url
     
                     except Exception as e:
                         return jsonify({"❌ Error": str(e)}), 500

@@ -388,7 +388,7 @@
 	},
 	"139": {
 	  "inputs": {
-		"image": "画板 (1).png",
+		"image": "img1_example",
 		"upload": "image"
 	  },
 	  "class_type": "LoadImage",
@@ -431,7 +431,7 @@
 	},
 	"144": {
 	  "inputs": {
-		"image": "erol-ahmed-FTy5VSGIfiQ-unsplash (1).jpg",
+		"image": "img2_example.jpg",
 		"upload": "image"
 	  },
 	  "class_type": "LoadImage",
