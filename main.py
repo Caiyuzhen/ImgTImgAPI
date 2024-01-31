@@ -10,7 +10,9 @@ from PIL import Image
 from flask import Flask, request, jsonify, send_from_directory
 from threading import Thread
 from datetime import datetime
+from dotenv import load_dotenv # 用来加载环境变量
 
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 
 UPLOAD_FOLDER = 'images'
