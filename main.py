@@ -16,7 +16,8 @@ load_dotenv()  # 加载 .env 文件中的环境变量
 
 
 UPLOAD_FOLDER = 'images'
-API_SERVER_IP = os.environ.get('API_SERVER_IP') # 【获取系统 ip 方法一(硬编码)】=> 从环境变量中获取 API_SERVER_IP
+API_SERVER_IP = os.environ.get('API_SERVER_IP') # 【获取系统 ip 方法一(硬编码)】=> 从环境变量中获取 API_SERVER_IP -> (🚀 部署后记得更换为服务器的 IP！)
+COMFYUI_OUTPUT_PATH = os.environ.get('COMFYUI_OUTPUT_PATH') # 生成后的图片存放路径
 URL = f"http://{API_SERVER_IP}:8188" # comfyUI 的服务器地址
 PORT = 5001 # 服务器端口, 必须跟服务器启动的端口号一样(比如 5001), 用于生成图片的 URL
 app = Flask(__name__)
@@ -25,7 +26,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True) # 确保上传文件夹存在
 
 
 # ⌛️ 轮询方法, 等待生图完成 ————————————————————————————————————————————————————————————————————————
-def check_image_status(prompt_id, timeout=360, interval=2):
+def check_image_status(prompt_id, timeout=720, interval=2):
     # 检查图片状态, 直到生成完图片或者图片生成超时
     stast_time = time.time()
     request_time = 0 # 请求次数
@@ -61,9 +62,18 @@ def uploaded_file(filename):
 @app.route('/output/<filename>')
 def comfyUI_output(filename):
 	username = getpass.getuser() # 获取当前电脑的用户名（实际的图片存在这个文件夹内）
-	output_folder = f'/Users/{username}/ComfyUI/output'
+	# output_folder = f'/Users/{username}/ComfyUI/output'
+	output_folder = COMFYUI_OUTPUT_PATH
 	return send_from_directory(output_folder, filename)
 
+# 拿到上传图片并开始生成后, 删除图片的方法
+def remove_upload_imagses(*file_paths):
+	for file_path in file_paths:
+		try:
+			os.remove(file_path)
+			print(f"✅ 删除了上传后的图片: {file_path}")
+		except Exception as e:
+			print(f"❌ 图片删除失败: {file_path}, {e}")
 
 # 生图服务的路由 ————————————————————————————————————————————————————————————————————————————————————————————————————————
 @app.route('/generate', methods=['POST'])
@@ -83,10 +93,13 @@ def index():
         print("✅ 解码图片成功", image_file_1, image_file_2)
         print("————————————————————————————————————————————————")
         
-        fileName_1 = 'uploaded_image_1.jpg'
-        fileName_2 = 'uploaded_image_2.jpg'
-        filePath_1 = os.path.join(app.config['UPLOAD_FOLDER'], fileName_1)
-        filePath_2 = os.path.join(app.config['UPLOAD_FOLDER'], fileName_2)
+        # 生成随机数
+        random_number_A = random.randint(0, 10000)
+        random_number_B = random.randint(10001, 20000)
+        fileName_1 = f'uploaded_image_{random_number_A}.jpg'
+        fileName_2 = f'uploaded_image_{random_number_B}.jpg'
+        filePath_1 = os.path.join(app.config['UPLOAD_FOLDER'], fileName_1) # flask 会自动创建一个 static 文件夹, 用于存放静态文件
+        filePath_2 = os.path.join(app.config['UPLOAD_FOLDER'], fileName_2) # flask 会自动创建一个 static 文件夹, 用于存放静态文件
         image_data_1.save(filePath_1) # 保存图片
         image_data_2.save(filePath_2) # 保存图片
         absoluteFilePath_1 = os.path.abspath(filePath_1)
@@ -143,7 +156,7 @@ def index():
   		        # 查看下 output
                 if prompt_id:
                     try:
-                        # 【获得生图结果】 
+                        # 【获得生图结果】
                         res = ''
                         res = check_image_status(prompt_id)
                         res_data = res.get_json() # 在 Flask 中, 当使用 jsonify() 创建一个响应时，实际上是返回了一个 Flask Response 对象, 其中包含了 JSON 格式的字符串作为其数据。要访问这个数据, 需要先检查响应的状态码, 然后解析响应内容为 JSON
@@ -162,6 +175,7 @@ def index():
                         # ComfyUI 存放图片的文件夹路径
                         img_url = f'http://{API_SERVER_IP}:{PORT}/output/{img_name}'
                         print("👍 生成了图片地址: ", img_url)
+                        remove_upload_imagses(filePath_1, filePath_2) # 删除上传的图片, 释放空间
                         return img_url
     
                     except Exception as e:
